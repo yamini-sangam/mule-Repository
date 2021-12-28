@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:java="http://www.mulesoft.org/schema/mule/java" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1f71c5d2-9a66-499b-a22b-bdd780cb39a8" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="javaprojectFlow" doc:id="a39984b0-a82a-4db5-bc28-fadad12325f8" >
+		<http:listener doc:name="Listener" doc:id="0b512c0e-d128-4169-90f0-35cd84a60230" config-ref="HTTP_Listener_config" path="/java"/>
+		<java:invoke-static doc:name="Invoke static" doc:id="c6e76a4e-86dd-442d-a241-d77f23c32645" class="com.mss.newjavaclass" method="getMessage(java.lang.String,java.lang.String)"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c71b8d4e-94d2-42cf-9501-781b415af8ae" message="#[payload]"/>
+	</flow>
+	<flow name="javaprojectFlow1" doc:id="555ba5ac-7072-423c-bb2a-a05a6cb9260c" >
+		<http:listener doc:name="Listener" doc:id="9522ce68-f794-49b0-954f-05757a7c8d78" config-ref="HTTP_Listener_config" path="/java2/{city}"/>
+		<java:new constructor="newjavaclass()" doc:name="New" doc:id="ac62d316-35ac-4303-a39e-3af97b0f2fe4" class="com.mss.newjavaclass" target="city"/>
+		<java:invoke method="getCountry(java.lang.String)" doc:name="Invoke" doc:id="9fdb687e-0a78-4854-86b6-5a8970f290ed" instance="#[vars.city]" class="com.mss.newjavaclass">
+			<java:args ><![CDATA[#[{
+	city: attributes.uriParams.city
+}]]]></java:args>
+		</java:invoke>
+	</flow>
+</mule>
