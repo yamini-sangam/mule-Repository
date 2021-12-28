@@ -2,6 +2,7 @@ package com.mss;
 
 public class newjavaclass {
 	public static String getMessage(String name, String country) {
+		System.out.println("Entered into static method");
 		return "hello"+name+"from"+country;
 	}
 public String getCountry(String city) {
@@ -13,6 +14,7 @@ public String getCountry(String city) {
 		return "300";
 	}
 	else {
+		
 		return "invalid city";
 	}
 
